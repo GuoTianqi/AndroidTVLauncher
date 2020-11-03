@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <uses-feature
         android:name="android.software.leanback"
@@ -19,6 +20,9 @@
             android:name="com.jacky.launcher.main.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.Leanback"
+            android:launchMode="singleTask"
+            android:clearTaskOnLaunch="true"
+            android:enabled="true"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -34,6 +38,20 @@
             android:exported="true"
             android:theme="@style/Theme.Leanback"/>
         <activity android:name="com.jacky.launcher.video.VideoActivity"/>
+
+        <receiver android:name=".main.BootReceiver"
+            android:enabled="true" android:exported="true"
+            android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
+            <intent-filter android:priority="1000">
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="com.duokan.duokanplayer.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.LETV_SCREENON"/>
+                <category android:name="android.intent.category.HOME"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </receiver>
     </application>
+
 
 </manifest>
