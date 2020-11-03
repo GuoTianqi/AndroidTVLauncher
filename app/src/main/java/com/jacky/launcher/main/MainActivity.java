@@ -167,7 +167,7 @@ public class MainActivity extends Activity {
         for (int i = 0; i < cardCount; i++) {
             AppModel appModel = appDataList.get(i);
             if (appModel.getPackageName().equals("com.gitvdemo.video") // 奇异果
-                    || appModel.getName().equals("com.dianshijia.newlive") // 电视家
+                    || appModel.getPackageName().equals("com.dianshijia.newlive") // 电视家
             ) {
                 listRowAdapter.add(appModel);
             }
