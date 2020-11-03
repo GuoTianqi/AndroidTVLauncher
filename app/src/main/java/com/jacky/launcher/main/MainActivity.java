@@ -20,6 +20,7 @@ import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.util.DisplayMetrics;
+import android.util.Log;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
@@ -69,8 +70,8 @@ public class MainActivity extends Activity {
     private void buildRowsAdapter() {
         rowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
 
-        addPhotoRow();
-        addVideoRow();
+//        addPhotoRow();
+//        addVideoRow();
         addAppRow();
         addFunctionRow();
 
@@ -152,10 +153,33 @@ public class MainActivity extends Activity {
     }
 
     private void addAppRow() {
+        ArrayList<AppModel> appDataList = new AppDataManage(mContext).getLaunchAppList();
+
+        addMainApp(appDataList);
+        addAllApp(appDataList);
+    }
+
+    private void addMainApp(ArrayList<AppModel> appDataList) {
+        String headerName = getResources().getString(R.string.app_header_main_app_name);
+        ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(new AppCardPresenter());
+
+        int cardCount = appDataList.size();
+        for (int i = 0; i < cardCount; i++) {
+            AppModel appModel = appDataList.get(i);
+            if (appModel.getPackageName().equals("com.gitvdemo.video") // 奇异果
+                    || appModel.getName().equals("com.dianshijia.newlive") // 电视家
+            ) {
+                listRowAdapter.add(appModel);
+            }
+        }
+        HeaderItem header = new HeaderItem(0, headerName);
+        rowsAdapter.add(new ListRow(header, listRowAdapter));
+    }
+
+    private void addAllApp(ArrayList<AppModel> appDataList) {
         String headerName = getResources().getString(R.string.app_header_app_name);
         ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(new AppCardPresenter());
 
-        ArrayList<AppModel> appDataList = new AppDataManage(mContext).getLaunchAppList();
         int cardCount = appDataList.size();
 
         for (int i = 0; i < cardCount; i++) {
@@ -175,5 +199,10 @@ public class MainActivity extends Activity {
         }
         HeaderItem header = new HeaderItem(0, headerName);
         rowsAdapter.add(new ListRow(header, listRowAdapter));
+    }
+
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
     }
 }
